@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/sampleapi" name="sampleAPI" xmlns="http://ws.apache.org/ns/synapse" hostname="localhost" port="9090">
+    <resource methods="GET PUT" uri-template="/sample/{val1}/groups/{val2}/name?q1={v1}&amp;q2={v2}">
+        <inSequence>
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
+    </resource>
+</api>
