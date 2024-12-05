@@ -2,7 +2,7 @@ package io.ballerina.synapse.parser;
 
 import io.ballerina.object.model.BallerinaPackage;
 import io.ballerina.source.writer.BalSourceWriter;
-import io.ballerina.syntax.tree.generator.BallerinaModelGenerator;
+import io.ballerina.model.generator.BallerinaModelGenerator;
 import org.apache.synapse.config.SynapseConfiguration;
 import org.testng.annotations.Test;
 

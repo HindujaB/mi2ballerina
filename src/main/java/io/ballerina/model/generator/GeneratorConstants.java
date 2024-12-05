@@ -1,4 +1,4 @@
-package io.ballerina.syntax.tree.generator;
+package io.ballerina.model.generator;
 
 public class GeneratorConstants {
     public static final String BALLERINA = "ballerina";

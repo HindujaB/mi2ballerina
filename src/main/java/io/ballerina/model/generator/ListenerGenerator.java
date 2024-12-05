@@ -1,4 +1,4 @@
-package io.ballerina.syntax.tree.generator;
+package io.ballerina.model.generator;
 
 import io.ballerina.object.model.BallerinaPackage;
 import org.apache.synapse.api.API;

@@ -1,4 +1,4 @@
-package io.ballerina.syntax.tree.generator;
+package io.ballerina.model.generator;
 
 import org.apache.synapse.api.dispatch.DispatcherHelper;
 
