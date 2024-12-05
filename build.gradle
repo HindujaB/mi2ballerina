@@ -7,6 +7,9 @@ group = 'org.example'
 version = '1.0-SNAPSHOT'
 
 repositories {
+    maven {
+        url = uri("file:///Users/hinduja/Documents/WSO2_MI/repo")
+    }
     mavenCentral()
 
     maven {
@@ -52,6 +55,7 @@ dependencies {
     implementation group: 'org.ballerinalang', name: 'ballerina-tools-api', version: "${ballerinaLangVersion}"
     // TestNG dependency for testing
     testImplementation 'org.testng:testng:7.10.2'
+    implementation 'org.ballerina:BallerinaJsonModel:1.0-SNAPSHOT'
 }
 
 test {
@@ -60,6 +64,6 @@ test {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }

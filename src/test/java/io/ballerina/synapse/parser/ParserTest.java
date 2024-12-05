@@ -1,8 +1,8 @@
 package io.ballerina.synapse.parser;
 
-import io.ballerina.compiler.syntax.tree.SyntaxTree;
-import io.ballerina.syntax.tree.generator.SyntaxTreeGenerator;
+import io.ballerina.object.model.BallerinaPackage;
 import io.ballerina.source.writer.BalSourceWriter;
+import io.ballerina.syntax.tree.generator.BallerinaModelGenerator;
 import org.apache.synapse.config.SynapseConfiguration;
 import org.testng.annotations.Test;
 
@@ -21,10 +21,10 @@ public class ParserTest {
         SynapseConfiguration config = SynapseConfigParser.parseSynapseConfig(xmlFilePath);
         // Validate that the configuration is not null
         assertNotNull(config, "SynapseConfiguration should not be null");
-        SyntaxTreeGenerator syntaxTreeGenerator = new SyntaxTreeGenerator();
-        SyntaxTree syntaxTree = syntaxTreeGenerator.generateSyntaxtree(config);
+        BallerinaModelGenerator ballerinaModelGenerator = new BallerinaModelGenerator();
+        BallerinaPackage ballerinaPackage = ballerinaModelGenerator.generateBallerinaModel(config);
         Path outpath = Paths.get("src/test/resources", "output");
-        BalSourceWriter.writeSingleBalSource(outpath, syntaxTree);
+        BalSourceWriter.writeBalSource(ballerinaPackage, outpath);
     }
 
     @Test(expectedExceptions = Exception.class, enabled = false)
@@ -33,7 +33,7 @@ public class ParserTest {
 
         // Expecting the parsing to throw an exception when the file path is invalid
         SynapseConfiguration configuration = SynapseConfigParser.parseSynapseConfig(invalidPath);
-        SyntaxTreeGenerator syntaxTreeGenerator = new SyntaxTreeGenerator();
-        syntaxTreeGenerator.generateSyntaxtree(configuration);
+        BallerinaModelGenerator ballerinaModelGenerator = new BallerinaModelGenerator();
+        ballerinaModelGenerator.generateBallerinaModel(configuration);
     }
 }
