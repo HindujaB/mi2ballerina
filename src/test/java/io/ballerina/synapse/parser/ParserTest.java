@@ -23,7 +23,7 @@ public class ParserTest {
         assertNotNull(config, "SynapseConfiguration should not be null");
         BallerinaModelGenerator ballerinaModelGenerator = new BallerinaModelGenerator();
         BallerinaPackage ballerinaPackage = ballerinaModelGenerator.generateBallerinaModel(config);
-        Path outpath = Paths.get("src/test/resources", "output");
+        Path outpath = Paths.get("src/test/resources", "output", "sampleProject");
         BalSourceWriter.writeBalSource(ballerinaPackage, outpath);
     }
 
@@ -36,7 +36,7 @@ public class ParserTest {
         assertNotNull(config, "SynapseConfiguration should not be null");
         BallerinaModelGenerator ballerinaModelGenerator = new BallerinaModelGenerator();
         BallerinaPackage ballerinaPackage = ballerinaModelGenerator.generateBallerinaModel(config);
-        Path outpath = Paths.get("src/test/resources", "output");
+        Path outpath = Paths.get("src/test/resources", "output", "sampleService");
         BalSourceWriter.writeBalSource(ballerinaPackage, outpath);
     }
 
