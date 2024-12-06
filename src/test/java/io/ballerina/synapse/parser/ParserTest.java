@@ -27,6 +27,19 @@ public class ParserTest {
         BalSourceWriter.writeBalSource(ballerinaPackage, outpath);
     }
 
+    @Test
+    public void testParseSynapseConfigMessageRouting() {
+        String xmlFilePath = "src/test/resources/sampleService";
+        // Call the method to parse the XML configuration
+        SynapseConfiguration config = SynapseConfigParser.parseSynapseConfig(xmlFilePath);
+        // Validate that the configuration is not null
+        assertNotNull(config, "SynapseConfiguration should not be null");
+        BallerinaModelGenerator ballerinaModelGenerator = new BallerinaModelGenerator();
+        BallerinaPackage ballerinaPackage = ballerinaModelGenerator.generateBallerinaModel(config);
+        Path outpath = Paths.get("src/test/resources", "output");
+        BalSourceWriter.writeBalSource(ballerinaPackage, outpath);
+    }
+
     @Test(expectedExceptions = Exception.class, enabled = false)
     public void testParseSynapseConfigWithInvalidPath() throws Exception {
         String invalidPath = "invalid/path/to/synapse.xml";

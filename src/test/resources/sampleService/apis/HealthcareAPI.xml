@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/healthcare" name="HealthcareAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/categories/{category}/reserve">
+        <inSequence>
+            <property name="Hospital" scope="default" type="STRING"
+                expression="json-eval($.hospital)" />
+            <switch source="get-property('Hospital')">
+                <case regex="grand oak community hospital">
+                    <log category="INFO" level="custom" description="GrandOak Log">
+                        <property name="message"
+                            expression="fn:concat('Routing to ', get-property('Hospital'))" />
+                    </log>
+                    <call>
+                        <endpoint key="GrandOakEP" />
+                    </call>
+                </case>
+                <case regex="pine valley community hospital">
+                    <log category="INFO" level="custom" description="Pine Valley Log">
+                        <property name="message"
+                            expression="fn:concat('Routing to ', get-property('Hospital'))" />
+                    </log>
+                    <call>
+                        <endpoint key="PineValleyEP" />
+                    </call>
+                </case>
+                <case regex="clemency medical center">
+                    <log category="INFO" level="custom" description="Clemency Log">
+                        <property name="message"
+                            expression="fn:concat('Routing to ', get-property('Hospital'))" />
+                    </log>
+                    <call>
+                        <endpoint key="ClemencyEP" />
+                    </call>
+                </case>
+                <default>
+                    <log category="INFO" level="custom" description="Fault Log">
+                        <property name="message"
+                            expression="fn:concat('Invalid hospital - ', get-property('Hospital'))" />
+                    </log>
+                </default>
+            </switch>
+            <respond />
+        </inSequence>
+        <faultSequence>
+        </faultSequence>
+    </resource>
+</api>
