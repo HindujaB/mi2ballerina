@@ -12,13 +12,11 @@ public class GeneratorUtils {
      * Generated resource function relative path node list.
      *
      * @param dispatcherHelper - Dispatch helper
-     * @param pathParams - path parameters
      * @param queryParams - query parameters
      * @return - node lists
      * @throws BallerinaGeneratorException
      */
-    public static String getRelativeResourcePath(DispatcherHelper dispatcherHelper, List<String> pathParams,
-                                                         List<String> queryParams)
+    public static String getRelativeResourcePath(DispatcherHelper dispatcherHelper, List<String> queryParams)
             throws BallerinaGeneratorException {
         StringBuilder pathBuilder = new StringBuilder();
         String uri = dispatcherHelper.getString();
@@ -35,8 +33,6 @@ public class GeneratorUtils {
                     String pathParam = pathNode;
                     pathParam = pathParam.substring(pathParam.indexOf(GeneratorConstants.OPEN_CURLY_BRACE) + 1);
                     pathParam = pathParam.substring(0, pathParam.indexOf(GeneratorConstants.CLOSE_CURLY_BRACE));
-//                    pathParam = escapeIdentifier(pathParam);
-                    pathParams.add(pathParam);
                     extractPathParameterDetails(pathBuilder, pathNode, pathParam);
                 } else if (!pathNode.isBlank()) {
                     pathBuilder.append(pathNode.trim());
