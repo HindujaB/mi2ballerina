@@ -67,3 +67,10 @@ java {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
+
+tasks.withType(Test) {
+    if (project.hasProperty('debug')) {
+        jvmArgs '-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005'
+        println 'Remote debugging enabled on port 5005. Waiting for debugger to attach...'
+    }
+}
