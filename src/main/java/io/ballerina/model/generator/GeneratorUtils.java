@@ -3,8 +3,6 @@ package io.ballerina.model.generator;
 import org.apache.synapse.api.dispatch.DispatcherHelper;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class GeneratorUtils {
 
@@ -14,7 +12,6 @@ public class GeneratorUtils {
      * @param dispatcherHelper - Dispatch helper
      * @param queryParams - query parameters
      * @return - node lists
-     * @throws BallerinaGeneratorException
      */
     public static String getRelativeResourcePath(DispatcherHelper dispatcherHelper, List<String> queryParams)
             throws BallerinaGeneratorException {
@@ -44,19 +41,20 @@ public class GeneratorUtils {
         } else if (pathNodes.length == 0) {
             pathBuilder.append(GeneratorConstants.DOT);
         } else {
-            pathBuilder.append(pathNodes[1].trim());
+            pathBuilder.append(pathNodes[0].trim());
         }
         populateQueryParameters(uriParts, queryParams);
-        return pathBuilder.toString();
+        return pathBuilder.substring(1);
     }
 
-    private static void extractPathParameterDetails(StringBuilder pathBuilder,
-                                                   String pathNode, String pathParam) throws BallerinaGeneratorException {
+    private static void extractPathParameterDetails(StringBuilder pathBuilder, String pathNode, String pathParam)
+            throws BallerinaGeneratorException {
         // check whether path parameter segment has special character
-        String[] split = pathNode.split(GeneratorConstants.CLOSE_CURLY_BRACE, 2);
-        Pattern pattern = Pattern.compile(GeneratorConstants.SPECIAL_CHARACTERS_REGEX);
-        Matcher matcher = pattern.matcher(split[1]);
-        boolean hasSpecialCharacter = matcher.find();
+        //TODO : needed when supporting quoted identifiers
+//        String[] split = pathNode.split(GeneratorConstants.CLOSE_CURLY_BRACE, 2);
+//        Pattern pattern = Pattern.compile(GeneratorConstants.SPECIAL_CHARACTERS_REGEX);
+//        Matcher matcher = pattern.matcher(split[1]);
+//        boolean hasSpecialCharacter = matcher.find();
         String paramType = GeneratorConstants.STRING;
         pathBuilder.append(GeneratorConstants.OPEN_BRACKET).append(paramType).append(GeneratorConstants.SPACE)
                 .append(pathParam).append(GeneratorConstants.CLOSE_BRACKET);

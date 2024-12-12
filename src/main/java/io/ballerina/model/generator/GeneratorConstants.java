@@ -1,14 +1,13 @@
 package io.ballerina.model.generator;
 
 public class GeneratorConstants {
+
     public static final String BALLERINA = "ballerina";
     public static final String HTTP = "http";
     public static final String LISTENER_TYPE = "http:Listener";
-    public static final String CONFIG = "config";
 
     //API related
     public static final String HOST = "host";
-    public static final String NEW = "new";
     public static final int DEFAULT_PORT = 8290;
 
     // Resource related
@@ -30,4 +29,15 @@ public class GeneratorConstants {
     public static final String DEFAULT_VERSION = "0.1.0";
 
     public static final String SPACE = " ";
+    public static final String PAYLOAD_VAR = "payload";
+    public static final String CALLER_VAR = "caller";
+    public static final String REQUEST_VAR = "request";
+    public static final String RESPONSE_VAR = "response";
+
+    public static final String HTTP_PAYLOAD_ANNOTATION = "@http:Payload";
+    public static final String CHECK = "check";
+    public static final String CONCAT = "concat";
+    public static final String LOG = "log";
+    public static final String ERROR_OR_NIL = "error?";
+    public static final String PORT = "port";
 }

@@ -4,29 +4,12 @@ import io.ballerina.object.model.BallerinaPackage;
 import org.apache.synapse.api.API;
 import org.apache.synapse.config.SynapseConfiguration;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-public class BallerinaModelGenerator {
-    private final List<BallerinaPackage.Module> modules ;
-    private final List<BallerinaPackage.Import> imports;
-    private final List<BallerinaPackage.Service> services;
-    private final List<BallerinaPackage.Variable > variables;
-
-
-    public BallerinaModelGenerator() {
-        this.modules = new ArrayList<>();
-        this.imports = new ArrayList<>();
-        this.services = new ArrayList<>();
-        this.variables = new ArrayList<>();
-    }
-
+public class BallerinaModelBuilder {
 
     public BallerinaPackage generateBallerinaModel(SynapseConfiguration synapseConfig) {
-        BallerinaPackage.DefaultPackage defaultPackage = new BallerinaPackage.DefaultPackage(
-                GeneratorConstants.DEFAULT_ORG_NAME, GeneratorConstants.DEFAULT_PACKAGE_NAME,
-                GeneratorConstants.DEFAULT_VERSION);
+        ModelEnvironment modelEnvironment = new ModelEnvironment(synapseConfig);
 //        if (synapseConfig.getRegistry() == null) {
 //            // If the synapse.xml does not define a registry look for a registry.xml
 //            createRegistry(synapseConfig);
@@ -38,7 +21,7 @@ public class BallerinaModelGenerator {
 //        }
 //        createSynapseImports(synapseConfig);
 //        createLocalEntries(synapseConfig);
-//        createEndpoints(synapseConfig);
+//        createEndpoints(synapseConfig.getDefinedEndpoints(), modelEnvironment);
 //        createSequences(synapseConfig);
 //        createTemplates(synapseConfig);
 //        createProxyServices(synapseConfig);
@@ -47,28 +30,27 @@ public class BallerinaModelGenerator {
 //        createExecutors(synapseConfig);
 //        createMessageStores(synapseConfig);
 //        createMessageProcessors(synapseConfig);
-        createAPIs(synapseConfig.getAPIs());
 //        createInboundEndpoint(synapseConfig);
-        this.modules.add(new BallerinaPackage.Module(GeneratorConstants.DEFAULT_PACKAGE_NAME, imports, variables, services));
-        return  new BallerinaPackage(defaultPackage, modules);
+        createAPIs(synapseConfig.getAPIs(), modelEnvironment);
+        modelEnvironment.setDefaultPackage(new BallerinaPackage.DefaultPackage(
+                GeneratorConstants.DEFAULT_ORG_NAME, GeneratorConstants.DEFAULT_PACKAGE_NAME,
+                GeneratorConstants.DEFAULT_VERSION));
+        modelEnvironment.createModule(GeneratorConstants.DEFAULT_PACKAGE_NAME);
+        modelEnvironment.completeModule();
+        return modelEnvironment.getBallerinaPackage();
     }
 
-    private static void createEndpoints(SynapseConfiguration synapseConfig) {
-
-    }
-
-    private void createAPIs(Collection<API> apiList) {
+    private void createAPIs(Collection<API> apiList, ModelEnvironment modelEnvironment) {
         if (apiList.isEmpty()) {
             return;
         }
         BallerinaPackage.Import importHttp = new BallerinaPackage.Import(GeneratorConstants.BALLERINA, GeneratorConstants.HTTP);
-        this.imports.add(importHttp);
+        modelEnvironment.addImport(importHttp);
         for (API api : apiList) {
-            ServiceGenerator serviceGenerator = new ServiceGenerator(api);
-            serviceGenerator.generateAPIService(this.services, this.variables);
+            APIGenerator apiGenerator = new APIGenerator(api, modelEnvironment);
+            apiGenerator.generateAPIService();
         }
 
     }
-
 
 }

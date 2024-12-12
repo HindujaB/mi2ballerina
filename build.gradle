@@ -55,7 +55,7 @@ dependencies {
     implementation group: 'org.ballerinalang', name: 'ballerina-tools-api', version: "${ballerinaLangVersion}"
     // TestNG dependency for testing
     testImplementation 'org.testng:testng:7.10.2'
-    implementation 'org.ballerina:BallerinaJsonModel:1.0-SNAPSHOT'
+    implementation 'org.ballerina:BallerinaObjectModel:1.0-SNAPSHOT'
 }
 
 test {
@@ -68,7 +68,7 @@ java {
     }
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
     if (project.hasProperty('debug')) {
         jvmArgs '-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005'
         println 'Remote debugging enabled on port 5005. Waiting for debugger to attach...'

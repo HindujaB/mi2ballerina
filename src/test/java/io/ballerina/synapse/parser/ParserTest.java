@@ -1,8 +1,8 @@
 package io.ballerina.synapse.parser;
 
+import io.ballerina.model.generator.BallerinaModelBuilder;
 import io.ballerina.object.model.BallerinaPackage;
 import io.ballerina.source.writer.BalSourceWriter;
-import io.ballerina.model.generator.BallerinaModelGenerator;
 import org.apache.synapse.config.SynapseConfiguration;
 import org.testng.annotations.Test;
 
@@ -21,7 +21,7 @@ public class ParserTest {
         SynapseConfiguration config = SynapseConfigParser.parseSynapseConfig(xmlFilePath);
         // Validate that the configuration is not null
         assertNotNull(config, "SynapseConfiguration should not be null");
-        BallerinaModelGenerator ballerinaModelGenerator = new BallerinaModelGenerator();
+        BallerinaModelBuilder ballerinaModelGenerator = new BallerinaModelBuilder();
         BallerinaPackage ballerinaPackage = ballerinaModelGenerator.generateBallerinaModel(config);
         Path outpath = Paths.get("src/test/resources", "output", "sampleProject");
         BalSourceWriter.writeBalSource(ballerinaPackage, outpath);
@@ -34,19 +34,19 @@ public class ParserTest {
         SynapseConfiguration config = SynapseConfigParser.parseSynapseConfig(xmlFilePath);
         // Validate that the configuration is not null
         assertNotNull(config, "SynapseConfiguration should not be null");
-        BallerinaModelGenerator ballerinaModelGenerator = new BallerinaModelGenerator();
+        BallerinaModelBuilder ballerinaModelGenerator = new BallerinaModelBuilder();
         BallerinaPackage ballerinaPackage = ballerinaModelGenerator.generateBallerinaModel(config);
         Path outpath = Paths.get("src/test/resources", "output", "sampleService");
         BalSourceWriter.writeBalSource(ballerinaPackage, outpath);
     }
 
     @Test(expectedExceptions = Exception.class, enabled = false)
-    public void testParseSynapseConfigWithInvalidPath() throws Exception {
+    public void testParseSynapseConfigWithInvalidPath() {
         String invalidPath = "invalid/path/to/synapse.xml";
 
         // Expecting the parsing to throw an exception when the file path is invalid
         SynapseConfiguration configuration = SynapseConfigParser.parseSynapseConfig(invalidPath);
-        BallerinaModelGenerator ballerinaModelGenerator = new BallerinaModelGenerator();
+        BallerinaModelBuilder ballerinaModelGenerator = new BallerinaModelBuilder();
         ballerinaModelGenerator.generateBallerinaModel(configuration);
     }
 }

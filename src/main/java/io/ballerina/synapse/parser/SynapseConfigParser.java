@@ -1,7 +1,6 @@
 package io.ballerina.synapse.parser;
 
 import org.apache.synapse.config.SynapseConfiguration;
-import org.apache.synapse.config.SynapseConfigurationBuilder;
 import org.apache.synapse.config.SynapsePropertiesLoader;
 import org.apache.synapse.config.xml.MultiXMLConfigurationBuilder;
 
