@@ -29,11 +29,12 @@ public class APIGenerator {
     }
 
     public void generateAPIService() {
-        BallerinaPackage.Listener listener = getAPIEndpointListener(api);
         if (resources == null) {
             resources = createResourceFunctions(api.getResources());
         }
-        modelEnvironment.addService(new BallerinaPackage.Service(basePath, List.of(listener), resources));
+        basePath = api.getContext();
+        modelEnvironment.addService(new BallerinaPackage.Service(basePath, List.of(getAPIEndpointListener(api)),
+                resources));
     }
 
     private List<BallerinaPackage.Resource> createResourceFunctions(Resource[] resources) {
@@ -54,16 +55,14 @@ public class APIGenerator {
         }
     }
 
-    public BallerinaPackage.Listener getAPIEndpointListener(API api) {
+    public String getAPIEndpointListener(API api) {
         // Assign host port value to listeners
-
         String host = api.getHost() == null ? "localhost" : api.getHost();
         int port = api.getPort() == -1 ? GeneratorConstants.DEFAULT_PORT : api.getPort();
-        basePath = api.getContext();
         Map<String, String> config = new HashMap<>();
         config.put(GeneratorConstants.PORT, String.valueOf(port));
         config.put(GeneratorConstants.HOST, host);
 //      TODO: incorporate version property
-        return new BallerinaPackage.Listener(GeneratorConstants.LISTENER_TYPE, config);
+         return modelEnvironment.addNewListener(config);
     }
 }

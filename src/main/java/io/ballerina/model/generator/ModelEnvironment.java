@@ -17,6 +17,7 @@ public class ModelEnvironment {
     private Mediator parentMediator = null;
     public String currentResourceMethod;
     private final SynapseConfiguration synapseConfig;
+    private int listenerCount = 0;
 
     public ModelEnvironment(SynapseConfiguration synapseConfig) {
         this.synapseConfig = synapseConfig;
@@ -54,11 +55,12 @@ public class ModelEnvironment {
     private final List<BallerinaPackage.Module> modules = new ArrayList<>();
     private final List<BallerinaPackage.Import> imports = new ArrayList<>();
     private final List<BallerinaPackage.Service> services = new ArrayList<>();
+    private final List<BallerinaPackage.Listener> listeners = new ArrayList<>();
     private final List<BallerinaPackage.Variable> variables = new ArrayList<>();
     private final List<BallerinaPackage.Function> functions = new ArrayList<>();
 
     public void createModule(String moduleName) {
-        currentModule = new BallerinaPackage.Module(moduleName, imports, variables, services);
+        currentModule = new BallerinaPackage.Module(moduleName, imports, variables, listeners, services);
     }
 
     public void addImport(BallerinaPackage.Import importNode) {
@@ -96,10 +98,17 @@ public class ModelEnvironment {
 
     public void addParentStatement(BallerinaPackage.Statement ballerinaStatement) {
         contextStatementsMap.get(parentMediator).add(ballerinaStatement);
-
     }
 
     public Endpoint getOriginalEndpoint(String name) {
         return synapseConfig.getDefinedEndpoints().get(name);
+    }
+
+    public String addNewListener(Map<String, String> config) {
+        String listenerName = GeneratorConstants.LISTENER_VAR + listenerCount++;
+        BallerinaPackage.Listener listener = new BallerinaPackage.Listener(listenerName,
+                GeneratorConstants.LISTENER_TYPE, config);
+        listeners.add(listener);
+        return listenerName;
     }
 }

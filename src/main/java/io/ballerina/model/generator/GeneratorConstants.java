@@ -40,4 +40,5 @@ public class GeneratorConstants {
     public static final String LOG = "log";
     public static final String ERROR_OR_NIL = "error?";
     public static final String PORT = "port";
+    public static final String LISTENER_VAR = "\\$listener";
 }

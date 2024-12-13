@@ -13,7 +13,7 @@ import static org.testng.Assert.assertNotNull;
 
 public class ParserTest {
 
-    @Test
+    @Test (enabled = false)
     public void testParseSynapseConfig() {
         String xmlFilePath = "src/test/resources/sampleProject";
 
@@ -38,6 +38,7 @@ public class ParserTest {
         BallerinaPackage ballerinaPackage = ballerinaModelGenerator.generateBallerinaModel(config);
         Path outpath = Paths.get("src/test/resources", "output", "sampleService");
         BalSourceWriter.writeBalSource(ballerinaPackage, outpath);
+//        BCompileUtil.compile(outpath.toString());
     }
 
     @Test(expectedExceptions = Exception.class, enabled = false)

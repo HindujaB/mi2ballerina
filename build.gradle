@@ -10,15 +10,11 @@ repositories {
     maven {
         url = uri("file:///Users/hinduja/Documents/WSO2_MI/repo")
     }
-    mavenCentral()
+    mavenLocal()
 
     maven {
         name = "wso2-nexus"
         url = "https://maven.wso2.org/nexus/content/groups/wso2-public/"
-    }
-
-    maven {
-        url = 'https://maven.wso2.org/nexus/content/repositories/orgballerinalang-1614'
     }
 
     maven {
@@ -55,7 +51,8 @@ dependencies {
     implementation group: 'org.ballerinalang', name: 'ballerina-tools-api', version: "${ballerinaLangVersion}"
     // TestNG dependency for testing
     testImplementation 'org.testng:testng:7.10.2'
-    implementation 'org.ballerina:BallerinaObjectModel:1.0-SNAPSHOT'
+    implementation 'org.ballerina:ballerina-model-to-code:1.0-SNAPSHOT'
+    implementation group: 'org.ballerinalang', name: 'ballerina-test-utils', version: "${ballerinaLangVersion}"
 }
 
 test {
