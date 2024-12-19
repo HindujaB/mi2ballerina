@@ -24,9 +24,13 @@ public class LogMediatorHandler extends MediatorHandler {
         List<String> parameters = new ArrayList<>();
         logMediator.getProperties().forEach((mediatorProperty) -> {
             if (mediatorProperty.getName().equals("message")) {
-                String expr = ExpressionHandlerFactory.getHandler(mediatorProperty.getExpression(), modelEnvironment)
-                        .getExpressionString();
-                parameters.add(expr);
+                if (mediatorProperty.getExpression() != null) {
+                    String expr = ExpressionHandlerFactory.getHandler(mediatorProperty.getExpression(), modelEnvironment)
+                            .getExpressionString();
+                    parameters.add(expr);
+                } else {
+                    parameters.add("\"" + mediatorProperty.getValue() + "\"");
+                }
             }
         });
         BallerinaPackage.Statement log = new BallerinaPackage.CallStatement(logFunction, parameters);
