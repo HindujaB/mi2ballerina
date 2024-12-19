@@ -1,6 +1,7 @@
 
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2' // Apply the Shadow plugin
 }
 
 group = 'org.example'
@@ -49,6 +50,8 @@ dependencies {
     implementation group: 'org.ballerinalang', name: 'ballerina-parser', version: "${ballerinaLangVersion}"
     implementation group: 'org.ballerinalang', name: 'formatter-core', version: "${ballerinaLangVersion}"
     implementation group: 'org.ballerinalang', name: 'ballerina-tools-api', version: "${ballerinaLangVersion}"
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
+    implementation 'ch.qos.logback:logback-classic:1.4.11'
     // TestNG dependency for testing
     testImplementation 'org.testng:testng:7.10.2'
     implementation 'org.ballerina:ballerina-model-to-code:1.0-SNAPSHOT'
@@ -63,6 +66,27 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'io.ballerina.cmd.Main' // Replace with the fully qualified name of your main class
+        )
+    }
+}
+
+configurations.all {
+    exclude group: 'org.slf4j', module: 'slf4j-log4j12' // Example of an older binding to exclude
+    exclude group: 'org.slf4j', module: 'slf4j-jdk14'
+}
+
+shadowJar {
+    archiveClassifier.set('all') // Create a fat JAR with all dependencies
+}
+
+tasks.named('build').configure {
+    dependsOn tasks.named('shadowJar')
 }
 
 tasks.withType(Test).configureEach {
