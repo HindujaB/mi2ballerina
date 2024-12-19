@@ -18,7 +18,7 @@ public class ParserTest {
         String xmlFilePath = "src/test/resources/sampleProject";
 
         // Call the method to parse the XML configuration
-        SynapseConfiguration config = SynapseConfigParser.parseSynapseConfig(xmlFilePath);
+        SynapseConfiguration config = SynapseConfigParser.getConfiguration(xmlFilePath);
         // Validate that the configuration is not null
         assertNotNull(config, "SynapseConfiguration should not be null");
         BallerinaModelBuilder ballerinaModelGenerator = new BallerinaModelBuilder();
@@ -29,9 +29,10 @@ public class ParserTest {
 
     @Test
     public void testParseSynapseConfigMessageRouting() {
-        String xmlFilePath = "src/test/resources/sampleService";
+//        String xmlFilePath = "src/test/resources/sampleService";
+        String xmlFilePath = "/Users/hinduja/Documents/WSO2_MI/synapse-projects/SampleServices/src/main/wso2mi/artifacts";
         // Call the method to parse the XML configuration
-        SynapseConfiguration config = SynapseConfigParser.parseSynapseConfig(xmlFilePath);
+        SynapseConfiguration config = SynapseConfigParser.getConfiguration(xmlFilePath );
         // Validate that the configuration is not null
         assertNotNull(config, "SynapseConfiguration should not be null");
         BallerinaModelBuilder ballerinaModelGenerator = new BallerinaModelBuilder();
@@ -46,7 +47,7 @@ public class ParserTest {
         String invalidPath = "invalid/path/to/synapse.xml";
 
         // Expecting the parsing to throw an exception when the file path is invalid
-        SynapseConfiguration configuration = SynapseConfigParser.parseSynapseConfig(invalidPath);
+        SynapseConfiguration configuration = SynapseConfigParser.getConfiguration(invalidPath);
         BallerinaModelBuilder ballerinaModelGenerator = new BallerinaModelBuilder();
         ballerinaModelGenerator.generateBallerinaModel(configuration);
     }
