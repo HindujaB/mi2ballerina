@@ -23,7 +23,6 @@ public class LogMediatorHandler extends MediatorHandler {
         String logFunction = "log:" + getLogFunction(logMediator.getCategory());
         List<String> parameters = new ArrayList<>();
         logMediator.getProperties().forEach((mediatorProperty) -> {
-            System.out.println(mediatorProperty);
             if (mediatorProperty.getName().equals("message")) {
                 String expr = ExpressionHandlerFactory.getHandler(mediatorProperty.getExpression(), modelEnvironment)
                         .getExpressionString();
