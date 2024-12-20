@@ -10,6 +10,7 @@ import org.apache.synapse.mediators.filters.SwitchMediator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class SwitchMediatorHandler extends MediatorHandler {
 
@@ -25,14 +26,23 @@ public class SwitchMediatorHandler extends MediatorHandler {
         String switchSrc = ExpressionHandlerFactory.getHandler(source, modelEnvironment).getExpressionString();
         List<BallerinaPackage.MatchPattern> matchPatternList = new ArrayList<>();
         for (SwitchCase caseBranch : switchMediator.getCases()) {
-            String clause = caseBranch.getRegex().pattern();
-            AnonymousListMediator caseMediator = caseBranch.getCaseMediator();
-            MediatorHandlerFactory.getHandler(caseMediator).handleMediator(modelEnvironment);
-            matchPatternList.add(new BallerinaPackage.MatchPattern("\"" + clause + "\"",
-                    modelEnvironment.exitContext()));
+            addSwitchCase(modelEnvironment, caseBranch, matchPatternList);
+        }
+        SwitchCase defaultCase = switchMediator.getDefaultCase();
+        if (defaultCase != null) {
+            addSwitchCase(modelEnvironment, defaultCase, matchPatternList);
         }
         BallerinaPackage.Statement statement = new BallerinaPackage.MatchStatement(switchSrc, matchPatternList);
         modelEnvironment.addStatement(statement);
+    }
+
+    private static void addSwitchCase(ModelEnvironment modelEnvironment, SwitchCase caseBranch,
+                                      List<BallerinaPackage.MatchPattern> matchPatternList) {
+        Pattern regex = caseBranch.getRegex();
+        String clause = regex == null ? null : "\"" + regex.pattern() + "\"";
+        AnonymousListMediator caseMediator = caseBranch.getCaseMediator();
+        MediatorHandlerFactory.getHandler(caseMediator).handleMediator(modelEnvironment);
+        matchPatternList.add(new BallerinaPackage.MatchPattern(clause, modelEnvironment.exitContext()));
     }
 
 }

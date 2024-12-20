@@ -30,15 +30,17 @@ public class GeneratorConstants {
 
     public static final String SPACE = " ";
     public static final String PAYLOAD_VAR = "payload";
-    public static final String CALLER_VAR = "caller";
-    public static final String REQUEST_VAR = "request";
-    public static final String RESPONSE_VAR = "response";
+    public static final String CALLER_VAR = "\\$caller";
+    public static final String REQUEST_VAR = "\\$request";
+    public static final String RESPONSE_VAR = "\\$response";
 
     public static final String HTTP_PAYLOAD_ANNOTATION = "@http:Payload";
     public static final String CHECK = "check";
+    public static final String RETURN = "return";
     public static final String CONCAT = "concat";
     public static final String LOG = "log";
     public static final String ERROR_OR_NIL = "error?";
     public static final String PORT = "port";
     public static final String LISTENER_VAR = "\\$listener";
+    public static final String RESPONSE_ERROR_VAR = HTTP_RESPONSE + "|" + ERROR_OR_NIL;
 }

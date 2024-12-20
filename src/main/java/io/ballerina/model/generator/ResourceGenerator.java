@@ -40,6 +40,9 @@ public class ResourceGenerator {
         if (modelEnvironment.getParameters().containsKey(GeneratorConstants.CALLER_VAR)) {
             return GeneratorConstants.ERROR_OR_NIL;
         }
+        if (modelEnvironment.getLocalVars().containsKey(GeneratorConstants.RESPONSE_VAR)) {
+            return GeneratorConstants.RESPONSE_ERROR_VAR;
+        }
         return null;
     }
 
